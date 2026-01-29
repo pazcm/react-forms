@@ -1,22 +1,25 @@
 import { useState } from 'react';
 
 export default function Login() {
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPassword, setEnteredPassword]= useState('');
+  // combine states to stored all state values in one object
+  const [enteredValues, setEnteredValues]= useState({
+    email: '',
+    password: ''
+  });
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    console.log('email: ' + enteredEmail + '\n' + 'pass: ' + enteredPassword);
+    // console.log('email: ' + enteredEmail + '\n' + 'pass: ' + enteredPassword);
+    console.log(enteredValues);
 
   }
 
-  function handlEmailChange(event) {
-    setEnteredEmail(event.target.value);
-  }
-
-  function handlPasswordChange(event) {
-    setEnteredPassword(event.target.value);
+  // email/pass key is stored in this handler as 'identifier'
+  function handInputChange(identifier, value) {
+    setEnteredValues(prevValues => ({ // get previous snapshot and return and objet{with my keys}:
+      ...prevValues, // paste my existing key value pairs, and update the field with the 'identifier'
+      [identifier]: value,
+    }));
   }
 
   return (
@@ -30,8 +33,8 @@ export default function Login() {
           id="email" 
           type="email" 
           name="email" 
-          onChange={handlEmailChange}
-          value={enteredEmail}
+          onChange={(event) => handInputChange('email', event.target.value)}
+          value={enteredValues.email}
           />
         </div>
 
@@ -41,8 +44,8 @@ export default function Login() {
           id="password" 
           type="password" 
           name="password"
-          onChange={handlPasswordChange}
-          value={enteredPassword}
+          onChange={(event) => handInputChange('password', event.target.value)}
+          value={enteredValues.password}
           />
         </div>
       </div>
