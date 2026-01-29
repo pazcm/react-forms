@@ -1,9 +1,11 @@
 export default function Signup() {
   function handleSubmit(event) {
     event.preventDefault();
-    // console.log ('hola');
+
     const fd = new FormData(event.target);
-    const data= Object.fromEntries(fd.entries());
+    const data= Object.fromEntries(fd.entries()); // all form entries are grouped here
+    const acquisitionChannel = fd.getAll('acquisition'); // but for the checkbox we need getAll method
+    data.acquisition = acquisitionChannel; // merge
     console.log(data);
 
   }
