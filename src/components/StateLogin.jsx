@@ -8,9 +8,14 @@ export default function Login() {
     password: '',
   });
 
-  //(input validation) if email change we'll calculate a new value |> here we validate on every keystroke 
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false
+  })
+
+  //(input validation) when lost focus --> the error message comes up
   const emailIsInvalid =
-    enteredValues.email !== '' && !enteredValues.email.includes('@');
+    didEdit.email && !enteredValues.email.includes('@');
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -18,10 +23,23 @@ export default function Login() {
     console.log(enteredValues);
   }
 
+  // field changes
   function handleInputChange(identifier, value) {
     setEnteredValues((prevValues) => ({
       ...prevValues,
       [identifier]: value,
+    }));
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: false, // will reset the edit state here, so the user doesn't see the error message when is editing again
+    }))
+  }
+
+  // field lose focus
+  function handleInputBlur(identifier) {
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: true
     }));
   }
 
@@ -44,6 +62,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={() => handleInputBlur('email')}
             onChange={(event) => handleInputChange('email', event.target.value)}
             value={enteredValues.email}
           />
