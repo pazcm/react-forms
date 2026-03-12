@@ -8,6 +8,8 @@ export default function Signup() {
     data.acquisition = acquisitionChannel; // merge
     console.log(data);
 
+    //another way of clear the form using: [!] it will also reset when submit the form
+    event.target.reset();
   }
 
   return (
