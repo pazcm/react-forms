@@ -8,6 +8,7 @@ export default function Login() {
     password: '',
   });
 
+  //(input validation) if email change we'll calculate a new value |> here we validate on every keystroke 
   const emailIsInvalid =
     enteredValues.email !== '' && !enteredValues.email.includes('@');
 
@@ -34,7 +35,7 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
+      <h2>Testing State Login</h2>
 
       <div className="control-row">
         <div className="control no-margin">
@@ -47,7 +48,7 @@ export default function Login() {
             value={enteredValues.email}
           />
           <div className="control-error">
-            {emailIsInvalid && <p>Please enter a valid email address.</p>}
+            {emailIsInvalid && <p>Please enter a valid email address here</p>}
           </div>
         </div>
 
