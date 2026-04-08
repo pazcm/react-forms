@@ -1,4 +1,8 @@
+import { useState } from 'react';
+
 export default function Signup() {
+  const [passwordsAreNotEqual, setPasswordsAreNotEqual] = useState(false);
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -6,7 +10,14 @@ export default function Signup() {
     const data= Object.fromEntries(fd.entries()); // all form entries are grouped here
     const acquisitionChannel = fd.getAll('acquisition'); // but for the checkbox we need getAll method
     data.acquisition = acquisitionChannel; // merge
-    console.log(data);
+
+    // check if passwords match
+    if (data.password !== data['confirm-password']) {
+      setPasswordsAreNotEqual(true);
+      return;
+    }
+
+    // console.log(data);
 
     //another way of clear the form using: [!] it will also reset when submit the form
     event.target.reset();
@@ -36,6 +47,9 @@ export default function Signup() {
             name="confirm-password"
             required
           />
+          <div className='control-error'>
+            {passwordsAreNotEqual && <p>Passwords must match !</p>}
+          </div>
         </div>
       </div>
 
