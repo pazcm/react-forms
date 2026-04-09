@@ -17,6 +17,8 @@ export default function Login() {
   //(input validation) when lost focus --> the error message comes up
   const emailIsInvalid =
     didEdit.email && !enteredValues.email.includes('@');
+  
+  const passwordIsvalid = didEdit.password && !enteredValues.password.trim().length < 6;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -64,11 +66,8 @@ export default function Login() {
           name="email" 
           onBlur={() => handleInputBlur('email')}
           onChange={(event) => handleInputChange('email', event.target.value)}
-          value={enteredValues.email} />
-
-          <div className="control-error">
-            {emailIsInvalid && <p>Please enter a valid email address here</p>}
-          </div>
+          value={enteredValues.email} 
+          error={emailIsInvalid && 'Please, enter a vaild email.'}/>
 
         <Input 
           label="Password" 
@@ -77,7 +76,8 @@ export default function Login() {
           name="password"
           onBlur={() => handleInputBlur('password')}
           onChange={(event) => handleInputChange('password', event.target.value)}
-          value={enteredValues.password} />
+          value={enteredValues.password}
+          error={passwordIsvalid && 'Please, enter a valid password.'} />
     </div>
       <p className="form-actions">
         <button className="button button-flat">Reset</button>
