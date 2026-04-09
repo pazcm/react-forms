@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Input from './Input.jsx'
+import Input from './Input.jsx';
+import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js';
 
 export default function Login() {
   // const [enteredEmail, setEnteredEmail] = useState('');
@@ -16,9 +17,13 @@ export default function Login() {
 
   //(input validation) when lost focus --> the error message comes up
   const emailIsInvalid =
-    didEdit.email && !enteredValues.email.includes('@');
+    didEdit.email && 
+    !isEmail(enteredValues.email) &&
+    !isNotEmpty(enteredValues.email);
   
-  const passwordIsvalid = didEdit.password && !enteredValues.password.trim().length < 6;
+  const passwordIsInvalid = 
+    didEdit.password && 
+    !hasMinLength(enteredValues.password, 6);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -60,14 +65,15 @@ export default function Login() {
 
       <div className="control-row">
         <Input 
-          label="Email" 
-          id="email" 
+          label="Email"
+          id="email"
           type="email" 
           name="email" 
           onBlur={() => handleInputBlur('email')}
           onChange={(event) => handleInputChange('email', event.target.value)}
           value={enteredValues.email} 
-          error={emailIsInvalid && 'Please, enter a vaild email.'}/>
+          error={emailIsInvalid && 'Please, enter a vaild email.'} 
+        />
 
         <Input 
           label="Password" 
@@ -77,8 +83,10 @@ export default function Login() {
           onBlur={() => handleInputBlur('password')}
           onChange={(event) => handleInputChange('password', event.target.value)}
           value={enteredValues.password}
-          error={passwordIsvalid && 'Please, enter a valid password.'} />
+          error={passwordIsInvalid && 'Please, enter a valid password.'} 
+        />
     </div>
+
       <p className="form-actions">
         <button className="button button-flat">Reset</button>
         <button className="button">Login</button>
